@@ -1,0 +1,2 @@
+customtkinter==5.2.2
+paho_mqtt==2.1.0
