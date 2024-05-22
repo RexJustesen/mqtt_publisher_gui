@@ -11,17 +11,26 @@ import os
 CURRENT_CONFIG_NAME = ''
 FACTOR = 1
 
+# Determine the base path for the application
+if hasattr(sys, '_MEIPASS'):
+    basedir = sys._MEIPASS
+else:
+    basedir = os.path.abspath(os.path.dirname(__file__))
+
+
 class MQTTApp:
     def __init__(self, root):
         self.root = root
         self.root.title("MQTT Publisher")
         set_appearance_mode("Dark")
 
-        # Initialize the MQTT client
+        icon_path = r'rocket-lunch.png'
+
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
+        self.root.iconphoto(False, tk.PhotoImage(file=os.path.join(basedir, icon_path)))
 
         # Store configurations
-        self.config_file = "mqtt_configurations.json"
+        self.config_file = os.path.join(basedir, "mqtt_configurations.json")
         self.configurations = {}
         self.current_config = None
 
@@ -364,7 +373,6 @@ class MQTTApp:
 if __name__ == "__main__":
     root = tk.Tk()
     app = MQTTApp(root)
-
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
 
